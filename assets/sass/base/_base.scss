@@ -1,0 +1,95 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: $secondary;
+}
+
+a {
+  color: $link;
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    color: darken($link, 12%);
+  }
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+
+}
+
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+}
+
+hr {
+  border-top: 0.1rem solid $secondary-light;
+  margin: 2rem 0 1.5rem;
+}
+
+*:focus {
+  outline: none;
+}
+
+::placeholder {
+  color: $tertiary;
+  font-size: 0.9rem;
+  padding-left: 1rem;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7));
+  ;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2EC997;
+  border-radius: 100px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: darken($color: #2EC997, $amount: 10%);
+}
+
+body {
+  overflow-y: hidden;
+}
+
+*::selection {
+  background: #2ec997;
+  color: #0f0f0f;
+}
+
+code {
+  background: rgba(46, 201, 151, .1) !important;
+  color: #2ec997 !important;
+  padding: 0 4px 5px 4px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+hr {
+  border-bottom: 0.1px solid #999;
+  border-top: 0;
+}
+

@@ -1,0 +1,127 @@
+.enter {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1.3s ease;
+}
+
+.before-enter {
+  opacity: 0;
+  transform: translateY(150px);
+  transition: all 1.3s ease;
+}
+
+.pb-0 {
+  padding-bottom: 0;
+}
+
+.pt-20 {
+  padding-top: 20px;
+}
+
+.blog {
+  margin: 0 auto;
+  padding: 120px 20px;
+  max-width: 78ch !important;
+
+  .imageParagraph {
+      padding: 20px 0;
+      &:last-child {
+          padding: 20px 0 0 0;
+      }
+  }
+
+  ul {
+    list-style-type: circle;
+    list-style: inside;
+    padding-bottom: 20px;
+
+    li {
+      display: block;
+      padding: 5px 2px;
+
+      &::before {
+        content: "\2022";
+        /* Add content: \2022 is the CSS Code/unicode for a bullet */
+        color: #2ec997;
+        /* Change the color */
+        font-weight: bold;
+        /* If you want it to be bold */
+        display: inline-block;
+        /* Needed to add space between the bullet and the text */
+        width: 1em;
+        /* Also needed for space (tweak if needed) */
+        margin-left: 15px;
+        /* Also needed for space (tweak if needed) */
+      }
+
+      span {
+        font-weight: 600;
+        color: #666666;
+      }
+    }
+  }
+
+  a {
+    color: #2ec997;
+
+    &:hover {
+      color: #fff;
+      text-decoration: underline;
+      transition: all 0.3 ease-in-out;
+    }
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 26px;
+    color: #f5f5f5;
+    font-weight: 400;
+    padding-bottom: 20px;
+  }
+
+  h3, h4 {
+    padding-bottom: 15px;
+    font-size: 22px;
+    line-height: 34px;
+    font-weight: 700;
+    color: #f5f5f5;
+  }
+
+  h4 {
+    font-size: 19px;
+  }
+
+  .code {
+    margin-bottom: 20px;
+    background-color: #0f0f0f;
+    padding: 15px 20px;
+    border-radius: 5px;
+
+    p {
+      font-family: monospace;
+      font-size: 14px;
+      line-height: 21px;
+      padding-bottom: 0;
+    }
+
+    .tag {
+      color: #96cbfe;
+    }
+
+    .directive {
+        color: lighten($color: #96cbfe, $amount: 10%)
+    }
+
+    .attribute {
+      color: #a8ff60;
+    }
+
+    .data {
+      color: #f9ee98;
+    }
+
+    .text {
+      color: #fff;
+    }
+  }
+}
