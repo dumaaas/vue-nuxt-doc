@@ -1,10 +1,10 @@
 <template>
   <section>
-    <div class="blog">
+    <div class="blog" ref="blog">
       <BlogHeading
         v-animate-on-scroll
         :date="date"
-        :readingTime="readingTime"
+        :readingTime="words"
         :title="title"
         :description="description"
       />
@@ -434,6 +434,8 @@ export default {
       description: "Osnovne direktive kod Vue.JS-a.",
       inlineImage: "<InlineImage>",
       infoBox: "<InfoBox>",
+      text: "",
+      words: "",
       html: '<span style="color: red"> Ovo bi trebalo biti crveno.</span>',
       num1: 0,
       num2: 0,
@@ -454,6 +456,12 @@ export default {
         },
       ],
     };
+  },
+  mounted() {
+    this.$nextTick(function () {
+      this.text = this.$refs.blog.innerHTML;
+      this.words = this.text.trim().split(/\s+/).length;
+    });
   },
 };
 </script>

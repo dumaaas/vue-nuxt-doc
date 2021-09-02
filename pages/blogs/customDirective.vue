@@ -1,9 +1,9 @@
 <template>
   <section>
-    <div v-animate-on-scroll class="blog">
+    <div v-animate-on-scroll class="blog" ref="blog">
       <BlogHeading
         :date="date"
-        :readingTime="readingTime"
+        :readingTime="words"
         :title="title"
         :description="description"
       />
@@ -548,6 +548,8 @@ export default {
       readingTime: "1 minute read",
       title: "Custom direktive",
       description: "Kreiranje custom direktiva.",
+      text: "",
+      words: "",
       otherBlogs: [
         {
           title: "Direktive",
@@ -563,6 +565,12 @@ export default {
         },
       ],
     };
+  },
+  mounted() {
+    this.$nextTick(function () {
+      this.text = this.$refs.blog.innerHTML;
+      this.words = this.text.trim().split(/\s+/).length;
+    });
   },
 };
 </script>

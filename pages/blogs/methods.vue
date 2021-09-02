@@ -1,9 +1,9 @@
 <template>
   <section>
-    <div class="blog">
+    <div class="blog" ref="blog">
       <BlogHeading
         :date="date"
-        :readingTime="readingTime"
+        :readingTime="words"
         :title="title"
         :description="description"
       />
@@ -38,7 +38,8 @@
         </p>
         <h3>Primjeri</h3>
         <p>
-          Sada slijedi par primjera u kojima se najbolje moze vidjeti primjena metoda.
+          Sada slijedi par primjera u kojima se najbolje moze vidjeti primjena
+          metoda.
         </p>
         <h4>#Brojac</h4>
         <div
@@ -163,9 +164,7 @@
             </tbody>
           </table>
         </div>
-        <h3 class="pt-20">
-          Kod
-        </h3>
+        <h3 class="pt-20">Kod</h3>
         <InlineImage
           :src="require(`@/assets/images/sortMethods2.png`)"
           alt="sort exercise"
@@ -197,6 +196,8 @@ export default {
   },
   data() {
     return {
+      text: "",
+      words: "",
       counter: 0,
       x: 638,
       post: {
@@ -225,7 +226,7 @@ export default {
           alt: "Custom direktive",
         },
       ],
-      columns: ['Title', 'Rating'],
+      columns: ["Title", "Rating"],
       tvShows: [
         { title: "Friends", rating: 96 },
         { title: "How I Met Your Mother", rating: 95 },
@@ -259,6 +260,12 @@ export default {
     sortBest() {
       this.tvShows.sort((a, b) => (a.rating < b.rating ? 1 : -1));
     },
+  },
+  mounted() {
+    this.$nextTick(function () {
+      this.text = this.$refs.blog.innerHTML;
+      this.words = this.text.trim().split(/\s+/).length;
+    });
   },
 };
 </script>
@@ -327,57 +334,6 @@ section {
     border: 1px solid #fff;
     padding: 4px 15px;
     border-radius: 8px;
-  }
-}
-
-.tvshow-exercise {
-  &__buttons {
-    display: flex;
-    justify-content: space-evenly;
-    button {
-      background: #141414;
-      border: 2px solid #29c987;
-      color: #29c987;
-      padding: 7px 17px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      &:hover {
-        background: #29c987;
-        border: 2px solid #141414;
-        color: #141414;
-        transition: all 0.3s ease;
-      }
-    }
-  }
-  table {
-    margin-top: 20px;
-    background: #141414;
-    width: 100%;
-    border-collapse: collapse;
-    border: 2px solid lighten($color: #141414, $amount: 10%);
-    thead {
-      th {
-        color: #29c987;
-      }
-    }
-    tbody {
-      th {
-        font-weight: normal;
-      }
-    }
-    th {
-      text-align: left;
-      border: 2px solid lighten($color: #141414, $amount: 10%);
-      padding: 10px;
-    }
-    tr {
-      transition: all 0.3s ease;
-      &:hover {
-        transition: all 0.3s ease;
-
-        background: lighten($color: #141414, $amount: 5%);
-      }
-    }
   }
 }
 </style>

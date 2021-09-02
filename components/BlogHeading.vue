@@ -1,7 +1,7 @@
 <template>
   <div class="heading">
     <div class="heading-reading">
-      <span> {{ date }} | {{ readingTime }} </span>
+      <span> {{ date }} | <ReadingTime :words="readingTime" /> </span>
     </div>
     <div class="heading-title">
       <h2>
@@ -13,15 +13,19 @@
         {{ description }}
       </p>
     </div>
-    <hr>
+    <hr />
   </div>
 </template>
 
 <script>
+import ReadingTime from "@/components/ReadingTime.vue";
 export default {
+  components: {
+    ReadingTime,
+  },
   props: {
     date: String,
-    readingTime: String,
+    readingTime: Number,
     title: String,
     description: String,
   },
@@ -29,7 +33,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 span {
   font-size: 16px;
   line-height: 24px;
