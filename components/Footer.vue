@@ -2,7 +2,7 @@
   <footer>
     <div>
       Built by <a target="_blank" href="https://www.linkedin.com/in/marko-dumni%C4%87-714b72198/">Marko Dumnic</a>. The source code
-      is available on <a href="https://github.com/dumaaas/simple-blog-nuxt" target="_blank">Github</a>.
+      is available on <a href="https://github.com/dumaaas/vue-nuxt-doc" target="_blank">Github</a>.
     </div>
   </footer>
 </template>
