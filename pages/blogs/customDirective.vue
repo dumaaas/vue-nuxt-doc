@@ -485,6 +485,9 @@
       </div>
       <div v-animate-on-scroll class="blog-element">
         <h3>Resenje</h3>
+        <button class="mb-20" v-if="blurConfig.isBlurred" @click="showResult">
+          Prikazi resenje
+        </button>
         <p>
           Svaki element sa klasom <a>blog-element</a> na ovoj stranici koristi
           ovu direktivu i na pojavljivanje se animira.
@@ -499,7 +502,12 @@
           </p>
         </div>
       </div>
-      <div v-animate-on-scroll class="blog-element">
+      <div
+        v-blur="blurConfig"
+        :class="{ unclickable: blurConfig.isBlurred }"
+        v-animate-on-scroll
+        class="blog-element"
+      >
         <h3>Kod</h3>
         <InlineImage
           :src="require(`@/assets/images/animateDirective.png`)"
@@ -544,6 +552,12 @@ export default {
   },
   data() {
     return {
+      blurConfig: {
+        isBlurred: true,
+        opacity: 0.5,
+        filter: "blur(8.5px)",
+        transition: "all .3s ease",
+      },
       date: "01. Septembar 2021",
       readingTime: "1 minute read",
       title: "Custom direktive",
@@ -571,6 +585,11 @@ export default {
       this.text = this.$refs.blog.innerHTML;
       this.words = this.text.trim().split(/\s+/).length;
     });
+  },
+  methods: {
+    showResult() {
+      this.blurConfig.isBlurred = false;
+    },
   },
 };
 </script>

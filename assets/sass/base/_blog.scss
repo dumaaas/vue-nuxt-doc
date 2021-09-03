@@ -22,10 +22,48 @@
   padding-bottom: 20px;
 }
 
+.mb-20 {
+  margin-bottom: 20px;
+}
+
 .blog {
   margin: 0 auto;
   padding: 120px 20px;
   max-width: 78ch !important;
+
+  button {
+    background: #0f0f0f;
+    border: 2px solid #29c987;
+    color: #29c987;
+    padding: 7px 17px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      background: #29c987;
+      border: 2px solid #0f0f0f;
+      color: #0f0f0f;
+      transition: all 0.3s ease;
+    }
+  }
+
+  select {
+    background: transparent;
+    border: 1px solid #707070;
+    border-radius: 50px;
+    height: 50px;
+    color: #707070 !important;
+    outline: none;
+
+    &::-ms-expand {
+      display: none;
+    }
+  }
+
+  option {
+    background: transparent;
+    border: 1px solid #707070;
+  }
 
   .imageParagraph {
     padding: 20px 0;
@@ -138,6 +176,11 @@
     border-radius: 7px;
     color: #D8000C;
     background-color: #FFBABA;
+  }
+
+  .unclickable {
+    pointer-events: none;
+    user-select: none;
   }
 
   .tvshow-exercise {

@@ -152,12 +152,90 @@
           :src="require(`@/assets/images/changeName.png`)"
           alt="Computed setter"
         />
-        <p>
+        <p class="pt-20">
           U primjeru iznad prikazujemo puno ime uz pomoc computed propertija
           <a>fullName</a>. Klikom na button invokujemo metod
           <a>changeFullName()</a> koji koristeci setter computed propertija daje
           novu vrijednost fullName-u.
         </p>
+      </div>
+      <h3>Vjezba</h3>
+      <p>
+        1. Krerati niz objekata <a>posts</a> od kojeg svaki element sadrzi
+        <a>title</a>, <a>authorName</a> i <a>label</a> polje. <br />2. Omoguciti
+        dodavanje novog posta u niz posts. <br />3. Omoguciti filtriranje svih
+        postova po label polju.
+      </p>
+      <h3>
+        Resenje
+      </h3>
+      <button v-if="blurConfig.isBlurred" @click="showResult">
+        Prikazi resenje
+      </button>
+      <div v-blur="blurConfig" class="filterPosts-exercise" :class="{ 'unclickable': blurConfig.isBlurred }">
+        <h4>Blog Posts</h4>
+        <div class="filterPosts-exercise__newPost">
+          <h5>Dodaj novi post</h5>
+          <div class="inputs">
+            <input
+              type="text"
+              placeholder="Unesite title..."
+              v-model="titlePlaceholder"
+              required
+            />
+            <input
+              type="text"
+              placeholder="Unesite ime autora..."
+              v-model="authorPlaceholder"
+              required
+            />
+          </div>
+          <div class="label">
+            <select v-model="labelPlaceholder" required>
+              <option class="select" selected disabled value="">
+                Izaberite label...
+              </option>
+              <option class="select" v-for="label in labels" :key="label">
+                {{ label }}
+              </option>
+            </select>
+          </div>
+          <div class="button">
+            <button @click="addPost">Dodaj</button>
+          </div>
+        </div>
+        <div class="filterPosts-exercise__list">
+          <div class="select-list">
+            <select v-model="labelFilter">
+              <option class="select" disabled value="">Filtriraj...</option>
+              <option class="select" v-for="label in labels" :key="label">
+                {{ label }}
+              </option>
+            </select>
+          </div>
+          <div v-for="post in filteredPosts" :key="post.title" class="post">
+            <div class="post-left">
+              <div class="post-left__top">
+                <h4>
+                  {{ post.title }}
+                </h4>
+              </div>
+              <div class="post-left__bottom">
+                <p>
+                  {{ post.authorName }}
+                </p>
+              </div>
+            </div>
+            <div class="post-right">
+              <p class="box" :class="post.label">
+                {{ post.label }}
+              </p>
+            </div>
+          </div>
+          <span v-if="!filteredPosts.length" class="no-results"
+            >Nema trazenih rezultata.</span
+          >
+        </div>
       </div>
       <hr />
       <BackToAll />
@@ -171,6 +249,7 @@ import BlogHeading from "@/components/BlogHeading.vue";
 import BackToAll from "@/components/BackToAll.vue";
 import OtherBlogs from "@/components/OtherBlogs.vue";
 import InlineImage from "@/components/InlineImage.vue";
+
 export default {
   props: {
     BlogHeading,
@@ -178,6 +257,7 @@ export default {
     OtherBlogs,
     InlineImage,
   },
+
   data() {
     return {
       userData: "",
@@ -186,8 +266,15 @@ export default {
       description: "Osnovno znacenje i upotreba computed property-a.",
       columns: ["Title", "Rating"],
       showFilter: "",
+      labelFilter: "",
       text: "",
       words: 0,
+      blurConfig: {
+        isBlurred: true,
+        opacity: 0.5,
+        filter: 'blur(8.5px)',
+        transition: 'all .3s ease'
+      },
       tvShows: [
         { title: "Friends", rating: 96 },
         { title: "How I Met Your Mother", rating: 95 },
@@ -215,13 +302,34 @@ export default {
       ],
       firstName: "Marko",
       lastName: "Dumnic",
+      labels: ["matematika", "informatika", "fizika", "hemija"],
+      posts: [
+        {
+          title: "Benfordov zakon",
+          authorName: "Frenk Benford",
+          label: "matematika",
+        },
+        {
+          title: "Visual Basic .NET",
+          authorName: "Bill Forgey",
+          label: "informatika",
+        },
+        {
+          title: "Solid state theory",
+          authorName: "Walter A. Harrison",
+          label: "fizika",
+        },
+      ],
+      titlePlaceholder: "",
+      authorPlaceholder: "",
+      labelPlaceholder: "",
     };
   },
   mounted() {
-      this.$nextTick(function() {
-          this.text = this.$refs.blog.innerHTML;
-          this.words = this.text.trim().split(/\s+/).length;
-      })
+    this.$nextTick(function () {
+      this.text = this.$refs.blog.innerHTML;
+      this.words = this.text.trim().split(/\s+/).length;
+    });
   },
   computed: {
     greeting() {
@@ -230,6 +338,10 @@ export default {
     filteredShows() {
       let filter = new RegExp(this.showFilter, "i");
       return this.tvShows.filter((el) => el.title.match(filter));
+    },
+    filteredPosts() {
+      let filter = new RegExp(this.labelFilter, "i");
+      return this.posts.filter((el) => el.label.match(filter));
     },
     fullName: {
       // getter
@@ -245,6 +357,9 @@ export default {
     },
   },
   methods: {
+    showResult() {
+      this.blurConfig.isBlurred = false;
+    },
     sortWorst() {
       this.tvShows.sort((a, b) => (a.rating > b.rating ? 1 : -1));
     },
@@ -253,6 +368,19 @@ export default {
     },
     changeFullName() {
       this.fullName = "Stefan Tomovic";
+    },
+    addPost() {
+      if(this.titlePlaceholder === "" || this.authorPlaceholder === "" || this.labelPlaceholder === "") {
+        return;
+      }
+      var post = {};
+      post.title = this.titlePlaceholder;
+      post.authorName = this.authorPlaceholder;
+      post.label = this.labelPlaceholder;
+      this.posts.push(post);
+      this.titlePlaceholder = "";
+      this.authorPlaceholder = "";
+      this.labelPlaceholder = "";
     },
   },
 };
@@ -264,27 +392,129 @@ section {
   background-color: #1e1e1e;
   overflow-y: auto;
 
+  .filterPosts-exercise {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    h4 {
+      text-transform: uppercase;
+      font-size: 22px;
+      padding-bottom: 0;
+    }
+
+    .button {
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+    }
+
+    h5 {
+      color: #29c987;
+      text-transform: uppercase;
+      font-size: 18px;
+    }
+
+    input {
+      margin: 0;
+      width: 48%;
+    }
+
+    .inputs {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .label {
+      width: 100%;
+    }
+
+    .select {
+      color: #707070;
+    }
+
+    select {
+      border-radius: 0;
+      width: 100%;
+      height: 36px;
+      padding-left: 22px;
+    }
+
+    &__newPost {
+      background: #0f0f0f;
+      padding: 25px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    &__list {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-direction: column;
+      width: 100%;
+
+      p {
+        padding-bottom: 0;
+      }
+
+      .box {
+        padding: 5px 10px;
+        border-radius: 5px;
+      }
+
+      .matematika {
+        background: #d9534f;
+      }
+
+      .informatika {
+        background: #428bca;
+      }
+
+      .fizika {
+        background: #29c987;
+      }
+
+      .hemija {
+        background: #f0ad4e;
+      }
+
+      .post {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 2px solid #29c987;
+        padding: 7px 25px;
+
+        &-left {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+        }
+      }
+      .select-list {
+        width: 100%;
+      }
+    }
+  }
+
   .computed-setter {
     display: flex;
     gap: 15px;
     align-items: center;
     p {
       padding: 0;
-    }
-    button {
-      background: #141414;
-      border: 2px solid #29c987;
-      color: #29c987;
-      padding: 7px 17px;
-      transition: all 0.3s ease;
-      cursor: pointer;
-
-      &:hover {
-        background: #29c987;
-        border: 2px solid #141414;
-        color: #141414;
-        transition: all 0.3s ease;
-      }
     }
   }
 

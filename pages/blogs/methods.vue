@@ -141,7 +141,14 @@
           ocijenjene.
         </p>
         <h3>Resenje</h3>
-        <div class="tvshow-exercise">
+        <button v-if="blurConfig.isBlurred" @click="showResult">
+          Prikazi resenje
+        </button>
+        <div
+          class="tvshow-exercise"
+          v-blur="blurConfig"
+          :class="{ unclickable: blurConfig.isBlurred }"
+        >
           <div class="tvshow-exercise__buttons">
             <button @click="sortBest">Sortiraj najbolje</button>
             <button @click="sortWorst">Sortiraj najlosije</button>
@@ -164,16 +171,18 @@
             </tbody>
           </table>
         </div>
-        <h3 class="pt-20">Kod</h3>
-        <InlineImage
-          :src="require(`@/assets/images/sortMethods2.png`)"
-          alt="sort exercise"
-        />
-        <InlineImage
-          :src="require(`@/assets/images/sortMethods.png`)"
-          alt="sort exercise"
-          width="88%"
-        />
+        <div v-blur="blurConfig" :class="{ unclickable: blurConfig.isBlurred }">
+          <h3 class="pt-20">Kod</h3>
+          <InlineImage
+            :src="require(`@/assets/images/sortMethods2.png`)"
+            alt="sort exercise"
+          />
+          <InlineImage
+            :src="require(`@/assets/images/sortMethods.png`)"
+            alt="sort exercise"
+            width="88%"
+          />
+        </div>
       </div>
       <hr />
       <BackToAll />
@@ -196,6 +205,12 @@ export default {
   },
   data() {
     return {
+      blurConfig: {
+        isBlurred: true,
+        opacity: 0.5,
+        filter: "blur(8.5px)",
+        transition: "all .3s ease",
+      },
       text: "",
       words: "",
       counter: 0,
@@ -241,6 +256,9 @@ export default {
     };
   },
   methods: {
+    showResult() {
+      this.blurConfig.isBlurred = false;
+    },
     increment() {
       this.counter++;
     },
@@ -334,6 +352,7 @@ section {
     border: 1px solid #fff;
     padding: 4px 15px;
     border-radius: 8px;
+    color: #fff;
   }
 }
 </style>

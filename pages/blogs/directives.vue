@@ -362,7 +362,10 @@
         </div>
         <div v-animate-on-scroll class="blog-element">
           <h3>Resenje</h3>
-          <div class="exercise-solution">
+          <button v-if="blurConfig.isBlurred" @click="showResult">
+            Prikazi resenje
+          </button>
+          <div v-blur="blurConfig" :class="{ 'unclickable': blurConfig.isBlurred }" class="exercise-solution">
             <div class="row">
               <input v-focus type="number" v-model.number="num1" />
               <span>+</span>
@@ -388,7 +391,7 @@
             </div>
           </div>
         </div>
-        <div v-animate-on-scroll class="blog-element">
+        <div v-animate-on-scroll class="blog-element" v-blur="blurConfig" :class="{ 'unclickable': blurConfig.isBlurred }">
           <h3>Kod</h3>
           <InlineImage
             :src="require(`@/assets/images/directiveSolution.png`)"
@@ -428,6 +431,12 @@ export default {
   },
   data() {
     return {
+      blurConfig: {
+        isBlurred: true,
+        opacity: 0.5,
+        filter: "blur(8.5px)",
+        transition: "all .3s ease",
+      },
       date: "31. Avgust 2021",
       readingTime: "2 minute read",
       title: "Direktive",
@@ -462,6 +471,11 @@ export default {
       this.text = this.$refs.blog.innerHTML;
       this.words = this.text.trim().split(/\s+/).length;
     });
+  },
+  methods: {
+    showResult() {
+      this.blurConfig.isBlurred = false;
+    },
   },
 };
 </script>
@@ -500,24 +514,6 @@ section {
 
     .select {
       color: #707070;
-    }
-
-    select {
-      background: transparent;
-      border: 1px solid #707070;
-      border-radius: 50px;
-      height: 50px;
-      color: #707070 !important;
-      outline: none;
-
-      &::-ms-expand {
-        display: none;
-      }
-    }
-
-    option {
-      background: transparent;
-      border: 1px solid #707070;
     }
 
     .second {
