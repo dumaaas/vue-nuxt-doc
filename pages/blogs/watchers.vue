@@ -35,6 +35,37 @@
           :src="require(`@/assets/images/yesNoExercise.png`)"
           alt="watchers exercise"
         />
+        <p class="pt-20">
+          Dakle, <a>watch</a> nam omogucava da pratimo stanje nekog podatka i da
+          izvrsimo neke funckije na svaku njegovu promjenu. Sa watch opcijom
+          mozemo da pristupimo i njegovoj novoj/staroj vrijednosti, kao i da
+          pristumo ugnjezdenim vrijednostima (ukoliko imamo objekat sa vise
+          propertija i zelimo da pratimo nesto unutar tog objekta).
+        </p>
+        <h3>Primjer</h3>
+        <div class="counter-exercise">
+          <label for="counter"> Unestite broj da pokrenete brojac </label>
+          <br />
+          <input type="number" v-model.number="counter.current" />
+          <p v-if="counter.current">
+            <span>Brojac: </span>{{ counter.current }}
+          </p>
+          <p v-if="counter.old">
+            <span>Stara vrijednost:</span> {{ counter.old }}
+          </p>
+          <p v-if="counter.new">
+            <span>Nova vrijednost:</span> {{ counter.new }}
+          </p>
+        </div>
+        <InlineImage
+          :src="require(`@/assets/images/counterExercise.png`)"
+          alt="watchers exercise"
+        />
+        <p class="pt-20">
+          U datom primjeru mozemo vidjeti kako uz pomoc watch opcije pristupamo
+          ugnjezdenom propertiju nekog objekta i kako koristimo staru i novu
+          vrijednost propertija kojeg posmatramo.
+        </p>
       </div>
       <hr />
       <BackToAll />
@@ -70,6 +101,11 @@ export default {
       words: "",
       question: "",
       answer: "Ne mogu ti dati odgovor dok me ne pitas! 🤔",
+      counter: {
+        current: null,
+        old: null,
+        new: null,
+      },
     };
   },
   methods: {
@@ -124,6 +160,10 @@ export default {
       this.answer = "Cekam da prestanes da kucas.. 💭";
       this.debouncedGetAnswer();
     },
+    "counter.current": function (newValue, oldValue) {
+      this.counter.old = oldValue;
+      this.counter.new = newValue;
+    },
   },
 };
 </script>
@@ -134,6 +174,12 @@ section {
   background-color: #1e1e1e;
   overflow-y: auto;
 
+  input {
+    margin-top: 7px;
+    width: 50%;
+    border-radius: 0;
+  }
+
   .randomAnswer-exercise {
     display: flex;
     justify-content: space-between;
@@ -142,11 +188,7 @@ section {
     label {
       color: #29c987;
     }
-    input {
-      margin-top: 7px;
-      width: 50%;
-      border-radius: 0;
-    }
+
     p {
       color: #29c987;
     }
