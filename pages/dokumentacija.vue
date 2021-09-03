@@ -26,7 +26,7 @@
             <div class="blog-content__item-bottom">
               <h3>{{ blog.title }}</h3>
               <span>{{ blog.date }}</span>
-              <p>{{ blog.content }}</p>
+              <p>{{ blog.description }}</p>
             </div>
           </div></nuxt-link
         >

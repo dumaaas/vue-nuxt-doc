@@ -2,10 +2,10 @@
   <section>
     <div class="blog" ref="blog">
       <BlogHeading
-        :date="date"
+        :date="blog.date"
         :readingTime="words"
-        :title="title"
-        :description="description"
+        :title="blog.title"
+        :description="blog.description"
       />
       <div class="blog-content">
         <p>
@@ -186,7 +186,7 @@
       </div>
       <hr />
       <BackToAll />
-      <OtherBlogs :otherBlogs="otherBlogs" />
+      <NextPrev :next="id + 1" :prev="id - 1" />
     </div>
   </section>
 </template>
@@ -194,13 +194,15 @@
 <script>
 import BlogHeading from "@/components/BlogHeading.vue";
 import BackToAll from "@/components/BackToAll.vue";
-import OtherBlogs from "@/components/OtherBlogs.vue";
+import NextPrev from "@/components/NextPrev.vue";
 import InlineImage from "@/components/InlineImage.vue";
+import { mapGetters } from "vuex";
+
 export default {
   props: {
     BlogHeading,
     BackToAll,
-    OtherBlogs,
+    NextPrev,
     InlineImage,
   },
   data() {
@@ -223,24 +225,7 @@ export default {
         contentPhoto: "pokemons.webp",
       },
       newMessage: "",
-      date: "01. Septembar 2021",
-      readingTime: "2 minute read",
-      title: "Methods",
-      description: "Metode i data property u Vue-u.",
-      otherBlogs: [
-        {
-          title: "Direktive",
-          url: "directives",
-          img: "directives.jpg",
-          alt: "direktive",
-        },
-        {
-          title: "Custom direktive",
-          url: "customDirective",
-          img: "customDirective.png",
-          alt: "Custom direktive",
-        },
-      ],
+      id: 3,
       columns: ["Title", "Rating"],
       tvShows: [
         { title: "Friends", rating: 96 },
@@ -284,6 +269,14 @@ export default {
       this.text = this.$refs.blog.innerHTML;
       this.words = this.text.trim().split(/\s+/).length;
     });
+  },
+  computed: {
+    ...mapGetters({
+      getBlog: "docs/getDoc",
+    }),
+    blog() {
+      return this.getBlog(this.id);
+    },
   },
 };
 </script>

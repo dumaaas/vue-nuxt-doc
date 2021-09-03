@@ -2,10 +2,10 @@
   <section>
     <div v-animate-on-scroll class="blog" ref="blog">
       <BlogHeading
-        :date="date"
+        :date="blog.date"
         :readingTime="words"
-        :title="title"
-        :description="description"
+        :title="blog.title"
+        :description="blog.description"
       />
       <div v-animate-on-scroll class="blog-element">
         <h3>Custom direktive</h3>
@@ -533,7 +533,7 @@
       </div>
       <hr />
       <BackToAll v-animate-on-scroll />
-      <OtherBlogs v-animate-on-scroll :otherBlogs="otherBlogs" />
+      <NextPrev v-animate-on-scroll :next="id + 1" :prev="id - 1" />
     </div>
   </section>
 </template>
@@ -541,13 +541,15 @@
 <script>
 import BlogHeading from "@/components/BlogHeading.vue";
 import BackToAll from "@/components/BackToAll.vue";
-import OtherBlogs from "@/components/OtherBlogs.vue";
+import NextPrev from "@/components/NextPrev.vue";
 import InlineImage from "@/components/InlineImage.vue";
+import { mapGetters } from "vuex";
+
 export default {
   props: {
     BlogHeading,
     BackToAll,
-    OtherBlogs,
+    NextPrev,
     InlineImage,
   },
   data() {
@@ -558,26 +560,9 @@ export default {
         filter: "blur(8.5px)",
         transition: "all .3s ease",
       },
-      date: "01. Septembar 2021",
-      readingTime: "1 minute read",
-      title: "Custom direktive",
-      description: "Kreiranje custom direktiva.",
+      id: 2,
       text: "",
       words: "",
-      otherBlogs: [
-        {
-          title: "Direktive",
-          url: "directives",
-          img: "directives.jpg",
-          alt: "direktive",
-        },
-        {
-          title: "Methods",
-          url: "methods",
-          img: "methods.jpg",
-          alt: "Metode",
-        },
-      ],
     };
   },
   mounted() {
@@ -589,6 +574,14 @@ export default {
   methods: {
     showResult() {
       this.blurConfig.isBlurred = false;
+    },
+  },
+  computed: {
+    ...mapGetters({
+      getBlog: "docs/getDoc",
+    }),
+    blog() {
+      return this.getBlog(this.id);
     },
   },
 };

@@ -2,10 +2,10 @@
   <section>
     <div class="blog" ref="blog">
       <BlogHeading
-        :date="date"
+        :date="blog.date"
         :readingTime="words"
-        :title="title"
-        :description="description"
+        :title="blog.title"
+        :description="blog.description"
       />
       <div class="blog-content">
         <p>
@@ -166,13 +166,15 @@
         dodavanje novog posta u niz posts. <br />3. Omoguciti filtriranje svih
         postova po label polju.
       </p>
-      <h3>
-        Resenje
-      </h3>
+      <h3>Resenje</h3>
       <button v-if="blurConfig.isBlurred" @click="showResult">
         Prikazi resenje
       </button>
-      <div v-blur="blurConfig" class="filterPosts-exercise" :class="{ 'unclickable': blurConfig.isBlurred }">
+      <div
+        v-blur="blurConfig"
+        class="filterPosts-exercise"
+        :class="{ unclickable: blurConfig.isBlurred }"
+      >
         <h4>Blog Posts</h4>
         <div class="filterPosts-exercise__newPost">
           <h5>Dodaj novi post</h5>
@@ -239,7 +241,7 @@
       </div>
       <hr />
       <BackToAll />
-      <OtherBlogs :otherBlogs="otherBlogs" />
+      <NextPrev :next="id + 1" :prev="id - 1" />
     </div>
   </section>
 </template>
@@ -247,33 +249,32 @@
 <script>
 import BlogHeading from "@/components/BlogHeading.vue";
 import BackToAll from "@/components/BackToAll.vue";
-import OtherBlogs from "@/components/OtherBlogs.vue";
+import NextPrev from "@/components/NextPrev.vue";
 import InlineImage from "@/components/InlineImage.vue";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
     BlogHeading,
     BackToAll,
-    OtherBlogs,
+    NextPrev,
     InlineImage,
   },
 
   data() {
     return {
       userData: "",
-      date: "02. Septembar 2021",
-      title: "Computed properties",
-      description: "Osnovno znacenje i upotreba computed property-a.",
       columns: ["Title", "Rating"],
       showFilter: "",
       labelFilter: "",
       text: "",
       words: 0,
+      id: 4,
       blurConfig: {
         isBlurred: true,
         opacity: 0.5,
-        filter: 'blur(8.5px)',
-        transition: 'all .3s ease'
+        filter: "blur(8.5px)",
+        transition: "all .3s ease",
       },
       tvShows: [
         { title: "Friends", rating: 96 },
@@ -285,20 +286,6 @@ export default {
         { title: "The Boys", rating: 92 },
         { title: "Brooklyn Nine-Nine", rating: 98 },
         { title: "True Detective", rating: 94 },
-      ],
-      otherBlogs: [
-        {
-          title: "Direktive",
-          url: "directives",
-          img: "directives.jpg",
-          alt: "direktive",
-        },
-        {
-          title: "Custom direktive",
-          url: "customDirective",
-          img: "customDirective.png",
-          alt: "Custom direktive",
-        },
       ],
       firstName: "Marko",
       lastName: "Dumnic",
@@ -332,6 +319,12 @@ export default {
     });
   },
   computed: {
+    ...mapGetters({
+      getBlog: "docs/getDoc",
+    }),
+    blog() {
+      return this.getBlog(this.id);
+    },
     greeting() {
       return `Welcome, ${this.userData}! 👋`;
     },
@@ -370,7 +363,11 @@ export default {
       this.fullName = "Stefan Tomovic";
     },
     addPost() {
-      if(this.titlePlaceholder === "" || this.authorPlaceholder === "" || this.labelPlaceholder === "") {
+      if (
+        this.titlePlaceholder === "" ||
+        this.authorPlaceholder === "" ||
+        this.labelPlaceholder === ""
+      ) {
         return;
       }
       var post = {};

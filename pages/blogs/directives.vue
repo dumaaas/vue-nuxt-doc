@@ -3,10 +3,10 @@
     <div class="blog" ref="blog">
       <BlogHeading
         v-animate-on-scroll
-        :date="date"
+        :date="blog.date"
         :readingTime="words"
-        :title="title"
-        :description="description"
+        :title="blog.title"
+        :description="blog.description"
       />
 
       <div v-animate-on-scroll class="blog-content">
@@ -365,7 +365,11 @@
           <button v-if="blurConfig.isBlurred" @click="showResult">
             Prikazi resenje
           </button>
-          <div v-blur="blurConfig" :class="{ 'unclickable': blurConfig.isBlurred }" class="exercise-solution">
+          <div
+            v-blur="blurConfig"
+            :class="{ unclickable: blurConfig.isBlurred }"
+            class="exercise-solution"
+          >
             <div class="row">
               <input v-focus type="number" v-model.number="num1" />
               <span>+</span>
@@ -391,7 +395,12 @@
             </div>
           </div>
         </div>
-        <div v-animate-on-scroll class="blog-element" v-blur="blurConfig" :class="{ 'unclickable': blurConfig.isBlurred }">
+        <div
+          v-animate-on-scroll
+          class="blog-element"
+          v-blur="blurConfig"
+          :class="{ unclickable: blurConfig.isBlurred }"
+        >
           <h3>Kod</h3>
           <InlineImage
             :src="require(`@/assets/images/directiveSolution.png`)"
@@ -409,7 +418,7 @@
         <BackToAll />
       </div>
       <div v-animate-on-scroll class="blog-element">
-        <OtherBlogs :otherBlogs="otherBlogs" />
+        <NextPrev :next="id + 1" :prev="id - 1" />
       </div>
     </div>
   </section>
@@ -419,7 +428,8 @@ import BlogHeading from "@/components/BlogHeading.vue";
 import BackToAll from "@/components/BackToAll.vue";
 import InlineImage from "@/components/InlineImage.vue";
 import InfoBox from "@/components/InfoBox.vue";
-import OtherBlogs from "@/components/OtherBlogs.vue";
+import NextPrev from "@/components/NextPrev.vue";
+import { mapGetters } from "vuex";
 
 export default {
   props: {
@@ -427,7 +437,7 @@ export default {
     BackToAll,
     InlineImage,
     InfoBox,
-    OtherBlogs,
+    NextPrev,
   },
   data() {
     return {
@@ -437,10 +447,7 @@ export default {
         filter: "blur(8.5px)",
         transition: "all .3s ease",
       },
-      date: "31. Avgust 2021",
-      readingTime: "2 minute read",
-      title: "Direktive",
-      description: "Osnovne direktive kod Vue.JS-a.",
+      id: 1,
       inlineImage: "<InlineImage>",
       infoBox: "<InfoBox>",
       text: "",
@@ -450,20 +457,6 @@ export default {
       num2: 0,
       name: "",
       frameworks: ["jQuery", "Vue", "React", "Angular"],
-      otherBlogs: [
-        {
-          title: "Custom direktive",
-          url: "customDirective",
-          img: "customDirective.png",
-          alt: "Custom direktive",
-        },
-        {
-          title: "Methods",
-          url: "methods",
-          img: "methods.jpg",
-          alt: "Metode",
-        },
-      ],
     };
   },
   mounted() {
@@ -475,6 +468,14 @@ export default {
   methods: {
     showResult() {
       this.blurConfig.isBlurred = false;
+    },
+  },
+  computed: {
+    ...mapGetters({
+      getBlog: "docs/getDoc",
+    }),
+    blog() {
+      return this.getBlog(this.id);
     },
   },
 };
