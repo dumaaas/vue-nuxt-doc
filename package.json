@@ -14,7 +14,9 @@
     "node-sass": "^6.0.1",
     "nuxt": "^2.15.7",
     "sass-loader": "^10",
-    "v-blur": "^1.0.4"
+    "v-blur": "^1.0.4",
+    "vue-client-only": "^2.1.0",
+    "vue-infinite-scroll": "^2.0.2"
   },
   "devDependencies": {}
 }

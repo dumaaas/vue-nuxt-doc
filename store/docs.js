@@ -38,6 +38,14 @@ export const state = () => ({
       date: "03. Septembar 2021",
       description: "Vue reaktivnost uz pomoc watchersa.",
       img: "watchers.jpg"
+    },
+    {
+      id: 6,
+      page: "animations",
+      title: "Animacije",
+      date: "09. Septembar 2021",
+      description: "Razliciti nacini za rad sa animacijama i tranzicijama.",
+      img: "animations.jpg"
     }
   ]
 })

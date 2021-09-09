@@ -66,6 +66,44 @@
           ugnjezdenom propertiju nekog objekta i kako koristimo staru i novu
           vrijednost propertija kojeg posmatramo.
         </p>
+        <h3>
+          Watched vs Computed
+        </h3>
+        <p>
+          Vue pruza vise genericki nacin za posmatranje i reagovanje na promjene podataka Vue instance uz pomoc <a>watch</a> propertija. Kada imamo neke podatke koje je potrebno promjeniti na osnovu drugih podataka, primamljivo je da pretjerano koristimo <a>watch</a> properti. Medjutim, cesto je bolja ideja koristiti <a>computed</a> propertije od imperativnog <a>watch</a> callback-a. Pogledajmo primjer: 
+        </p>
+        <InlineImage
+          :src="require(`@/assets/images/wcSolution.png`)"
+          alt="watched vs computed"
+        />
+        <p class="pt-20">
+          Kod iznad je imperativan i ponavlja se. Uporedimo ga sa computed properti verzijom: 
+        </p>
+        <InlineImage
+          :src="require(`@/assets/images/wcSolution2.png`)"
+          alt="watched vs computed"
+        />
+        <p class="pt-20">
+          Mnogo bolje, zar ne?
+        </p>
+        <h3>Vjezba</h3>
+        <p>
+          1. Napraviti button preko kojeg cemo promjeniti stanje nekog elemente
+          uz pomoc watch opcije.
+        </p>
+        <h3>Resenje</h3>
+        <button v-if="blurConfig.isBlurred" @click="showResult">
+          Prikazi resenje
+        </button>
+        <div
+          v-blur="blurConfig"
+          :class="{ unclickable: blurConfig.isBlurred }"
+          class="watcher-exercise pt-20"
+        >
+          <button @click="orderTaco">Naruci taco</button>
+          <p class="pt-20">{{ taco }}</p>
+          <p v-if="tacoSubmitted">{{ tacoSubmitted }}</p>
+        </div>
       </div>
       <hr />
       <BackToAll />
@@ -79,6 +117,7 @@ import BlogHeading from "@/components/BlogHeading.vue";
 import BackToAll from "@/components/BackToAll.vue";
 import NextPrev from "@/components/NextPrev.vue";
 import InlineImage from "@/components/InlineImage.vue";
+
 import { mapGetters } from "vuex";
 
 export default {
@@ -106,6 +145,8 @@ export default {
         old: null,
         new: null,
       },
+      taco: "Dje je moj taco?",
+      tacoSubmitted: null,
     };
   },
   methods: {
@@ -137,6 +178,9 @@ export default {
         debounceTimer = setTimeout(() => func.apply(context, args), delay);
       };
     },
+    orderTaco() {
+      this.taco = "🌮!";
+    },
   },
   mounted() {
     this.$nextTick(function () {
@@ -152,7 +196,7 @@ export default {
       return this.getBlog(this.id);
     },
   },
-  created: function () {
+  created() {
     this.debouncedGetAnswer = this.debounce(this.getAnswer, 500);
   },
   watch: {
@@ -163,6 +207,11 @@ export default {
     "counter.current": function (newValue, oldValue) {
       this.counter.old = oldValue;
       this.counter.new = newValue;
+    },
+    taco(newValue, oldValue) {
+      this.tacoSubmitted = "Taco je narucen!";
+      setTimeout(() => (this.tacoSubmitted = "Stizeem!"), 1500);
+      setTimeout(() => (this.tacoSubmitted = null), 3000);
     },
   },
 };
