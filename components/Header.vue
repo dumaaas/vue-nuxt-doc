@@ -2,12 +2,15 @@
   <header>
     <div class="content">
       <div class="content-logo">
-        <nuxt-link to="/"> Vue/Nuxt Dokumentacija</nuxt-link>
+        <nuxt-link to="/"> Vue/Test Nuxt</nuxt-link>
       </div>
       <div class="content-links">
         <ul>
           <li>
-            <nuxt-link to="/dokumentacija">Dokumentacija</nuxt-link>
+            <nuxt-link to="/Documentation">MyProject</nuxt-link>
+          </li>
+          <li>
+            <nuxt-link to="/Docs">Docs</nuxt-link>
           </li>
         </ul>
       </div>

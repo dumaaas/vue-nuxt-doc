@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nuxt-link to="/dokumentacija">👈 NAZAD NA DOKUMENTACIJU</nuxt-link>
+    <nuxt-link to="/Documentation">👈 NAZAD NA DOKUMENTACIJU</nuxt-link>
   </div>
 </template>
 

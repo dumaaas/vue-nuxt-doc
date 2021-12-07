@@ -4,9 +4,9 @@
       <div class="main-content">
         <div class="main-content__title">
           <p>VUE, NUXT</p>
-          <h1><nuxt-link to="/dokumentacija">Dokumentacija</nuxt-link> !</h1>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
-          <p>Pogledajte <nuxt-link to="/blog">dokumentaciju</nuxt-link> .</p>
+          <h1><nuxt-link to="/Documentation">MyProjects</nuxt-link> !</h1>
+          <p> <nuxt-link to="/first-post">الرساله التي ستغير تاريخ البشرية </nuxt-link></p>
+          <p>Pogledajte <nuxt-link to="/blogs/customDirective">dokumentaciju</nuxt-link> .</p>
         </div>
       </div>
     </div>
@@ -40,7 +40,7 @@ main {
 
   .main {
     display: flex;
-    justify-content: space-between;
+    justify-content:  center;
     align-items: center;
     height: 100vh;
     &-content {
