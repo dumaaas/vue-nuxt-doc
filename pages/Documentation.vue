@@ -2,11 +2,11 @@
   <section>
     <div v-animate-on-scroll class="blog">
       <div class="blog-title">
-        <h2>Dokumentacija</h2>
+        <h2>Documentation</h2>
       </div>
       <div class="blog-search">
         <input
-          placeholder="Pretrazi dokumentaciju..."
+          placeholder="search..."
           type="text"
           v-model="docFilter"
         />
